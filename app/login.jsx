@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
+import RemixIcon from "react-native-remix-icon";
 
 export default function AuthScreen() {
   return (
@@ -44,6 +45,7 @@ export default function AuthScreen() {
 
       <View style={styles.buttonWrapper}>
         <TouchableOpacity style={[styles.button, styles.createButton]} onPress={()=>router.push("/signup")}>
+          <RemixIcon name="user-add-fill" size={20} color="#111" style={{ marginRight: 6 }} />
           <Text style={styles.buttonText}>Create an account</Text>
         </TouchableOpacity>
       </View>
@@ -64,7 +66,7 @@ const styles = StyleSheet.create({
   },
   imageWrapper: {
     width: "100%",
-    minHeight: 200,
+    minHeight: 335,
   },
   image: {
     flex: 1,
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   googleButton: {
-    backgroundColor: "#19b3b3",
+    backgroundColor: "#BFB24F",
   },
   phoneButton: {
     backgroundColor: "#f0f4f4",
@@ -105,7 +107,7 @@ const styles = StyleSheet.create({
   createButton: {
     backgroundColor: "transparent",
     borderWidth: 1,
-    borderColor: "#111717",
+    borderColor: "#ffffffff",
   },
   buttonText: {
     fontSize: 16,
@@ -123,7 +125,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
     textDecorationLine: "underline",
-    marginVertical: 12,
+    marginVertical: 110,
     paddingHorizontal: 16,
   },
 });
