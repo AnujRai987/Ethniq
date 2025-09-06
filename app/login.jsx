@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from "react-native";
+import { Colors } from "../assets/Colors";
 
 export default function AuthScreen() {
   return (
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   googleButton: {
-    backgroundColor: "#19b3b3",
+    backgroundColor: Colors.bttn,
   },
   phoneButton: {
     backgroundColor: "#f0f4f4",
