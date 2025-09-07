@@ -1,4 +1,8 @@
+import { router } from "expo-router";
 import React, { useState } from "react";
+import { Video } from "expo-av";
+import { Colors } from "../assets/Colors";
+
 import {
     View,
     Text,
@@ -20,56 +24,35 @@ export default function SignUpScreen() {
         >
 
             {/* Image background with overlay and "Create account" */}
-            <View style={{ padding: 16 }}>
-                <ImageBackground
-                    source={require("../assets/images/createacc.png")}
+            <View style={{marginTop:10}}>
+                <Video
+                    source={require("../assets/videos/createacc.mp4")}
                     style={{
-                        height: 200,
-                        justifyContent: "flex-end",
+                        height: 400,
                         borderRadius: 12,
                         overflow: "hidden",
                     }}
-                    imageStyle={{
-                        borderRadius: 12,
+                    resizeMode="contain"
+                    shouldPlay     // autoplay
+                    isLooping      // loop forever
+                    isMuted  
+                >
+                </Video>
+            </View>
+
+            <View>
+                <Text
+                    style={{
+                        color:"../assets/constants/primary_but",
+                        fontSize: 20,
+                        fontWeight: "bold",
+                        marginVertical: 8,
+                        marginLeft: 20,
+                        marginRight: 190,
                     }}
                 >
-                    <View
-                        style={{
-                            backgroundColor: "rgba(0,0,0,0.4)",
-                            padding: 16,
-                            flexDirection: "row",
-                            justifyContent: "space-between",
-                            alignItems: "flex-end",
-                        }}
-                    >
-                        <View style={{ flex: 1, marginRight: 12 }}>
-                            <Text
-                                style={{
-                                    color: "white",
-                                    fontSize: 22,
-                                    fontWeight: "bold",
-                                }}
-                            >
-                                Create an account
-                            </Text>
-                            <Text style={{ color: "white", fontSize: 14, marginTop: 4 }}>
-                                Join our community of artisans and craft enthusiasts.
-                            </Text>
-                        </View>
-                        <TouchableOpacity
-                            style={{
-                                backgroundColor: "#19b3b3",
-                                paddingHorizontal: 16,
-                                paddingVertical: 8,
-                                borderRadius: 8,
-                            }}
-                        >
-                            <Text style={{ fontWeight: "bold", color: "#111717" }}>
-                                Sign Up
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </ImageBackground>
+                    {"Create an account"}
+                </Text>
             </View>
 
             {/* Username Input */}
@@ -128,11 +111,13 @@ export default function SignUpScreen() {
             <View style={{ paddingHorizontal: 16, paddingVertical: 12 }}>
                 <TouchableOpacity
                     style={{
-                        backgroundColor: "#19b3b3",
+                        backgroundColor: Colors.bttn,
                         borderRadius: 12,
                         padding: 16,
                         alignItems: "center",
                     }}
+
+                    onPress={()=> router.push("/home")}
                 >
                     <Text
                         style={{

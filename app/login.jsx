@@ -1,5 +1,5 @@
 import { router } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -7,10 +7,14 @@ import {
   ImageBackground,
   TouchableOpacity,
   SafeAreaView,
+  TextInput
 } from "react-native";
-import RemixIcon from "react-native-remix-icon";
+import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
+
 
 export default function AuthScreen() {
+  const [email_id, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
   return (
     <SafeAreaView style={styles.container}>
       {/* Top Background Image */}
@@ -29,26 +33,78 @@ export default function AuthScreen() {
       </Text>
 
       {/* Buttons */}
-      <View style={styles.buttonWrapper}>
+      {/* <View style={styles.buttonWrapper}>
         <TouchableOpacity style={[styles.button, styles.googleButton]}>
+          <AntDesign name="google" size={20} color="#111717" style={{ marginRight: 8 }} />
           <Text style={styles.buttonText}>Continue with Google</Text>
+        </TouchableOpacity>
+      </View> */}
+
+      <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
+                <TextInput
+                    placeholder="Enter your Email"
+                    value={email_id}
+                    onChangeText={setEmailId}
+                    style={{
+                        backgroundColor: "#f0f4f4",
+                        borderRadius: 12,
+                        padding: 16,
+                        fontSize: 16,
+                        color: "#111717",
+                    }}
+                    placeholderTextColor="#648787"
+                />
+            </View>
+
+
+      <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
+                <TextInput
+                    placeholder="Enter your Password"
+                    value={password}
+                    onChangeText={setPassword}
+                    style={{
+                        backgroundColor: "#f0f4f4",
+                        borderRadius: 12,
+                        padding: 16,
+                        fontSize: 16,
+                        color: "#111717",
+                    }}
+                    placeholderTextColor="#648787"
+                />
+            </View>
+      
+
+      <View style={styles.buttonWrapper}>
+        <TouchableOpacity style={[styles.button, styles.loginButton]}>
+                    <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.buttonWrapper}>
+      
+
+      {/* <View style={styles.buttonWrapper}>
         <TouchableOpacity style={[styles.button, styles.phoneButton]}>
+          <Feather name="phone" size={20} color="#111717" style={{ marginRight: 8 }} />
           <Text style={styles.buttonText}>Continue with Phone</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
 
       <Text style={styles.orText}>or</Text>
 
+      {/* Create an account */}
+
       <View style={styles.buttonWrapper}>
+        <TouchableOpacity style={[styles.button, styles.createButton]}>
+		            <AntDesign name="google" size={20} color="#111717" style={{ marginRight: 8 }} />
+                <Text style={styles.buttonText}>/ </Text>
+		            <Feather name="phone" size={20} color="#111717" style={{ marginRight: 8 }} />
+        </TouchableOpacity>
         <TouchableOpacity style={[styles.button, styles.createButton]} onPress={()=>router.push("/signup")}>
-          <RemixIcon name="user-add-fill" size={20} color="#111" style={{ marginRight: 6 }} />
+          <Ionicons name="person-add" size={20} color="#111717" style={{ marginRight: 8 }} />
           <Text style={styles.buttonText}>Create an account</Text>
         </TouchableOpacity>
       </View>
+
 
       {/* Terms */}
       <Text style={styles.terms}>
@@ -99,10 +155,10 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   googleButton: {
-    backgroundColor: "#BFB24F",
+    backgroundColor: "#bfb24f",
   },
-  phoneButton: {
-    backgroundColor: "#f0f4f4",
+  loginButton: {
+    backgroundColor: "#bfb24f",
   },
   createButton: {
     backgroundColor: "transparent",

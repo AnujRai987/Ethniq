@@ -1,8 +1,10 @@
-import { router } from "expo-router";
+import { useRouter } from "expo-router";
 import React from "react";
 import { View, Text, ImageBackground, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
+import { Colors } from "../assets/Colors";
 
 export default function App() {
+  const router=useRouter();
   return (
     <SafeAreaView style={styles.container}>
       {/* Top Section with Image */}
@@ -20,7 +22,7 @@ export default function App() {
 
       {/*for moving to the next screen*/}
       <View>
-        <TouchableOpacity onPress={()=> router.push("/login")} style={{alignItems:"center",backgroundColor:"#6dfdfdff",height:43,justifyContent:"center",marginLeft:"auto",marginRight:"auto",width:300}}>    
+        <TouchableOpacity onPress={()=> router.push("/login")} style={{alignItems:"center",backgroundColor:Colors.bttn,height:43,justifyContent:"center",marginLeft:"auto",marginRight:"auto",width:300}}>    
           <Text>Go to next</Text>
         </TouchableOpacity>
       </View>
