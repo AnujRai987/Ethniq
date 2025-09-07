@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import React from "react";
 import { View, Text, ImageBackground, StyleSheet, TouchableOpacity, ScrollView } from "react-native";
 
@@ -39,7 +40,7 @@ export default function home() {
 
         {/* Actions */}
         <View style={styles.actions}>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity style={styles.button } onPress={()=>router.replace("/post_upload")}>
             <Text style={styles.buttonText}>23 Likes</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button}>
