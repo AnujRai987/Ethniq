@@ -5,30 +5,14 @@ import { Colors } from "../assets/Colors";
 import { auth, db } from "../FirebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 
-import {
-    View,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    ImageBackground,
-    ScrollView,
-} from "react-native";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import {View, Text, TextInput,TouchableOpacity,ScrollView,} from "react-native";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 export default function SignUpScreen() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const signIn = async () => {
-        try {
-            const user = await signInWithEmailAndPassword(auth, email, password)
-            if (user) router.replace("/home");
-        } catch (error) {
-            console.log(error)
-            alert('signIn is failed :' + error)
-        }
-    }
 
     const signUp = async () => {
         try {

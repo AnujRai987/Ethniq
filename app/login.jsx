@@ -1,9 +1,35 @@
 import { router } from "expo-router";
 
-import {View,Text,StyleSheet,ImageBackground,TouchableOpacity,SafeAreaView,} from "react-native";
 import { Colors } from "../assets/Colors";
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  ImageBackground,
+  TouchableOpacity,
+  SafeAreaView,
+  TextInput
+} from "react-native";
+import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
+import { auth } from "../FirebaseConfig";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 export default function AuthScreen() {
+  const [email, setEmailId] = useState("");
+  const [password, setPassword] = useState("");
+
+// sign method
+   const signIn = async () => {
+          try {
+              const user = await signInWithEmailAndPassword(auth, email, password)
+              if (user) router.replace("/home");
+          } catch (error) {
+              console.log(error)
+              alert('signIn is failed :' + error)
+          }
+      }
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Top Background Image */}
@@ -21,26 +47,64 @@ export default function AuthScreen() {
         Discover unique crafts from around the globe.
       </Text>
 
-      {/* Buttons */}
-      <View style={styles.buttonWrapper}>
-        <TouchableOpacity style={[styles.button, styles.googleButton]}>
-          <Text style={styles.buttonText}>Continue with Google</Text>
-        </TouchableOpacity>
-      </View>
+
+      <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
+                <TextInput
+                    placeholder="Enter your Email"
+                    value={email}
+                    onChangeText={setEmailId}
+                    style={{
+                        backgroundColor: "#f0f4f4",
+                        borderRadius: 12,
+                        padding: 16,
+                        fontSize: 16,
+                        color: "#111717",
+                    }}
+                    placeholderTextColor="#648787"
+                />
+            </View>
+
+
+      <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
+                <TextInput
+                    placeholder="Enter your Password"
+                    value={password}
+                    onChangeText={setPassword}
+                    style={{
+                        backgroundColor: "#f0f4f4",
+                        borderRadius: 12,
+                        padding: 16,
+                        fontSize: 16,
+                        color: "#111717",
+                    }}
+                    placeholderTextColor="#648787"
+                />
+            </View>
+      
 
       <View style={styles.buttonWrapper}>
-        <TouchableOpacity style={[styles.button, styles.phoneButton]}>
-          <Text style={styles.buttonText}>Continue with Phone</Text>
+        <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={signIn}>
+                    <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
       </View>
 
       <Text style={styles.orText}>or</Text>
 
+      {/* Create an account */}
+
       <View style={styles.buttonWrapper}>
+        <TouchableOpacity style={[styles.button, styles.createButton]}>
+		            <AntDesign name="google" size={20} color="#111717" style={{ marginRight: 8 }} />
+                <Text style={styles.buttonText}>/ </Text>
+		            <Feather name="phone" size={20} color="#111717" style={{ marginRight: 8 }} />
+        </TouchableOpacity>
+
         <TouchableOpacity style={[styles.button, styles.createButton]} onPress={()=>router.push("/signup")}>
+          <Ionicons name="person-add" size={20} color="#111717" style={{ marginRight: 8 }} />
           <Text style={styles.buttonText}>Create an account</Text>
         </TouchableOpacity>
       </View>
+
 
       {/* Terms */}
       <Text style={styles.terms}>
@@ -59,7 +123,7 @@ const styles = StyleSheet.create({
   imageWrapper: {
     aspectRatio:1,
     width: "100%",
-    minHeight: 200,
+    minHeight: 335,
   },
   image: {
     flex: 1,
@@ -92,15 +156,15 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   googleButton: {
-    backgroundColor: Colors.bttn,
+    backgroundColor: "#bfb24f",
   },
-  phoneButton: {
-    backgroundColor: "#f0f4f4",
+  loginButton: {
+    backgroundColor: "#bfb24f",
   },
   createButton: {
     backgroundColor: "transparent",
     borderWidth: 1,
-    borderColor: "#111717",
+    borderColor: "#ffffffff",
   },
   buttonText: {
     fontSize: 16,
@@ -118,7 +182,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: "center",
     textDecorationLine: "underline",
-    marginVertical: 12,
+    marginVertical: 110,
     paddingHorizontal: 16,
   },
 });
