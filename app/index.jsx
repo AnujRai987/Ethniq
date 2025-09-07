@@ -1,10 +1,60 @@
 import { useRouter } from "expo-router";
-import React from "react";
-import { View, Text, ImageBackground, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, Text, ImageBackground, StyleSheet, SafeAreaView, TouchableOpacity ,Animated,Easing} from "react-native";
 import { Colors } from "../assets/Colors";
+import { auth } from "../FirebaseConfig";
+import { onAuthStateChanged } from "firebase/auth";
+import React, { useEffect,useRef,useState } from "react";
 
 export default function App() {
   const router=useRouter();
+  const progress =useRef(new Animated.Value(0)).current;// progress bar initial value
+
+  // for checking both conditions
+const [authChecked, setAuthChecked] = useState(false);
+const [authUser, setAuthUser] = useState(null);
+const [progressDone, setProgressDone] = useState(false);
+
+
+  useEffect(()=> {
+    const loopAnimation =() =>{
+      progress.setValue(0);
+      Animated.timing(progress,{
+        toValue:1,
+        duration:1000,
+        easing:Easing.linear,
+        useNativeDriver:false,
+      }).start(()=> {setProgressDone(true)}); //repeat
+    };
+    loopAnimation();
+
+    //Firebase check in Background
+    const unsubscribe=onAuthStateChanged(auth,(user)=>{
+      setAuthUser(user);
+      setAuthChecked(true);
+    });
+    
+    return () => unsubscribe();
+  },[]);
+
+  // when both finished -> navigate
+  useEffect(()=> {
+    if(progressDone && authChecked){
+      const currentUser =auth.currentUser;
+      if(authUser || currentUser){
+        router.replace("/home");
+      }else{
+        router.replace("/login")
+      }
+    }
+  },[progressDone,authChecked]);
+
+
+  // animation progress width (0% -> 100%)
+  const progressWidth =progress.interpolate({
+    inputRange:[0,1],
+    outputRange:["0%","100%"],
+  });
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Top Section with Image */}
@@ -19,21 +69,12 @@ export default function App() {
       {/* Title & Subtitle */}
       <Text style={styles.title}>ETHNIQ</Text>
       <Text style={styles.subtitle}>Authentic crafts. Global reach.</Text>
-
-      {/*for moving to the next screen*/}
-      <View>
-        <TouchableOpacity onPress={()=> router.push("/login")} style={{alignItems:"center",backgroundColor:Colors.bttn,height:43,justifyContent:"center",marginLeft:"auto",marginRight:"auto",width:300}}>    
-          <Text>Go to next</Text>
-        </TouchableOpacity>
-      </View>
       
-
       {/* Bottom Progress Bar */}
       <View style={styles.bottomWrapper}>
         <View style={styles.progressBackground}>
-          <View style={styles.progressBar} />
+          <Animated.View style={[styles.progressBar, { width: progressWidth }]} />
         </View>
-        <View style={styles.spacer} />
       </View>
     </SafeAreaView>
   );
@@ -41,24 +82,23 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex:1,
     backgroundColor: "#fff",
     justifyContent: "space-between",
   },
   imageWrapper: {
     width: "100%",
-    aspectRatio: 2 / 3,
+    aspectRatio: 1/1.7,
   },
   image: {
     flex: 1,
   },
   title: {
-    fontSize: 22,
+    fontSize: 38,
     fontWeight: "bold", // system bold font
     color: "#111717",
     textAlign: "center",
     paddingTop: 20,
-    paddingBottom: 10,
   },
   subtitle: {
     fontSize: 16,
@@ -68,20 +108,18 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
   },
   bottomWrapper: {
-    padding: 16,
+    padding: 18,
   },
   progressBackground: {
     backgroundColor: "#dce5e5",
     borderRadius: 4,
+    overflow:"hidden",
   },
   progressBar: {
     height: 8,
-    backgroundColor: "#111717",
+    backgroundColor: Colors.bttn,
     borderRadius: 4,
     width: "100%",
   },
-  spacer: {
-    height: 20,
-    backgroundColor: "#fff",
-  },
+
 });

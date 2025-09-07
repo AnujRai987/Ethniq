@@ -2,6 +2,8 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import { Video } from "expo-av";
 import { Colors } from "../assets/Colors";
+import { auth, db } from "../FirebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 
 import {
     View,
@@ -11,20 +13,46 @@ import {
     ImageBackground,
     ScrollView,
 } from "react-native";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function SignUpScreen() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const signIn = async () => {
+        try {
+            const user = await signInWithEmailAndPassword(auth, email, password)
+            if (user) router.replace("/home");
+        } catch (error) {
+            console.log(error)
+            alert('signIn is failed :' + error)
+        }
+    }
+
+    const signUp = async () => {
+        try {
+            const user = await createUserWithEmailAndPassword(auth, email, password);
+            await addDoc(collection(db, "Users"), {
+                Name: username,
+                Email: email,
+                Password: password
+            });
+            if (user) {router.replace("/home")};
+        } catch (error) {
+            console.log(error)
+            alert('signUp is failed :' + error)
+        }
+    }
+
     return (
         <ScrollView
             style={{ flex: 1, backgroundColor: "white" }}
-            contentContainerStyle={{ flexGrow: 1, marginTop:12 }}
+            contentContainerStyle={{ flexGrow: 1, marginTop: 12 }}
         >
 
             {/* Image background with overlay and "Create account" */}
-            <View style={{marginTop:10}}>
+            <View>
                 <Video
                     source={require("../assets/videos/createacc.mp4")}
                     style={{
@@ -35,7 +63,7 @@ export default function SignUpScreen() {
                     resizeMode="contain"
                     shouldPlay     // autoplay
                     isLooping      // loop forever
-                    isMuted  
+                    isMuted
                 >
                 </Video>
             </View>
@@ -43,7 +71,7 @@ export default function SignUpScreen() {
             <View>
                 <Text
                     style={{
-                        color:"../assets/constants/primary_but",
+                        color: "../assets/constants/primary_but",
                         fontSize: 20,
                         fontWeight: "bold",
                         marginVertical: 8,
@@ -117,7 +145,7 @@ export default function SignUpScreen() {
                         alignItems: "center",
                     }}
 
-                    onPress={()=> router.push("/home")}
+                    onPress={signUp}
                 >
                     <Text
                         style={{

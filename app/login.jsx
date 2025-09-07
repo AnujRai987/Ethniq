@@ -1,13 +1,6 @@
 import { router } from "expo-router";
-import React from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  ImageBackground,
-  TouchableOpacity,
-  SafeAreaView,
-} from "react-native";
+
+import {View,Text,StyleSheet,ImageBackground,TouchableOpacity,SafeAreaView,} from "react-native";
 import { Colors } from "../assets/Colors";
 
 export default function AuthScreen() {
@@ -64,6 +57,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   imageWrapper: {
+    aspectRatio:1,
     width: "100%",
     minHeight: 200,
   },

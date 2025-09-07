@@ -12,8 +12,6 @@ export default function RootLayout() {
     <Stack.Screen
     name="signup"/>
     <Stack.Screen
-    name="role"/>
-    <Stack.Screen
     name="(tabs)"/>
     </Stack>
   </SafeAreaProvider>
