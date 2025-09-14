@@ -21,7 +21,7 @@ export default function SignUpScreen() {
             const userCreate= await createUserWithEmailAndPassword(auth,email,password);
             console.log(userCreate);
             
-            await addDoc(collection(db,"Users"),{
+            addDoc(collection(db,"Users"),{
                 
                 Email:email,
                 Name:username,
