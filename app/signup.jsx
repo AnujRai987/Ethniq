@@ -1,4 +1,4 @@
-import { router } from "expo-router";
+
 import React, { useState } from "react";
 import { Video } from "expo-av";
 import { Colors } from "../assets/Colors";
@@ -6,28 +6,53 @@ import { auth, db } from "../FirebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 
 import {View, Text, TextInput,TouchableOpacity,ScrollView,} from "react-native";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "expo-router";
 
 export default function SignUpScreen() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
+    const router =useRouter();
 
-    const signUp = async () => {
+    const signUp =async () => {
         try {
-            const user = await createUserWithEmailAndPassword(auth, email, password);
-            await addDoc(collection(db, "Users"), {
-                Name: username,
-                Email: email,
-                Password: password
+            const userCreate= await createUserWithEmailAndPassword(auth,email,password);
+            console.log(userCreate);
+            
+            await addDoc(collection(db,"Users"),{
+                
+                Email:email,
+                Name:username,
+                Password:password
             });
-            if (user) {router.replace("/home")};
+            router.replace("/home")
+            
         } catch (error) {
-            console.log(error)
-            alert('signUp is failed :' + error)
+            console.log(error);
+            alert(error);
         }
     }
+//     const signUp = async () => {
+//   try {
+//     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+//     console.log(userCredential);
+//     const user = userCredential.user;
+
+//     // Save user info (not password)
+//     await addDoc(collection(db, "Users"), {
+//       Email: email,
+//       Name:username,
+//       Password:password
+//     });
+
+//     router.replace("/home"); // navigate to home
+//   } catch (error) {
+//     console.log("SignUp Error:", error);
+//     alert("Sign up failed: " + error.message);
+//   }
+// };
 
     return (
         <ScrollView

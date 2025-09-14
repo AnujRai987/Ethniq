@@ -1,5 +1,3 @@
-import { router } from "expo-router";
-
 import { Colors } from "../assets/Colors";
 import React, { useState } from "react";
 import {
@@ -14,22 +12,26 @@ import {
 import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
 import { auth } from "../FirebaseConfig";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "expo-router";
 
 export default function AuthScreen() {
   const [email, setEmailId] = useState("");
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("")
+  const router=useRouter();
 
 // sign method
-   const signIn = async () => {
-          try {
-              const user = await signInWithEmailAndPassword(auth, email, password)
-              if (user) router.replace("/home");
-          } catch (error) {
-              console.log(error)
-              alert('signIn is failed :' + error)
-          }
+    const signIn= async () =>{
+      try {
+        const userCredential= await signInWithEmailAndPassword(auth,email,password);
+        console.log(userCredential);  //remove later
+        if(userCredential.user.uid){
+          console.log("Moving to home screen") // remove
+          router.replace("/home");
+        }  
+      } catch (error) {
+        console.log(error);
       }
-
+    }
   return (
     <SafeAreaView style={styles.container}>
       {/* Top Background Image */}
