@@ -51,6 +51,8 @@ export default function home() {
         </View>
       </View>
 
+      
+
     </ScrollView>
   );
 }

@@ -24,11 +24,12 @@ export default function SignUpScreen() {
         >
 
             {/* Image background with overlay and "Create account" */}
-            <View style={{marginTop:10}}>
+            <View style={{marginTop:5}}>
                 <Video
                     source={require("../assets/videos/createacc.mp4")}
                     style={{
-                        height: 400,
+                        height: 325,
+                        width:"auto",
                         borderRadius: 12,
                         overflow: "hidden",
                     }}
@@ -46,12 +47,13 @@ export default function SignUpScreen() {
                         color:"../assets/constants/primary_but",
                         fontSize: 20,
                         fontWeight: "bold",
-                        marginVertical: 8,
                         marginLeft: 20,
-                        marginRight: 190,
+                        marginBottom:20,
+                        marginRight: 1,
+                        fontFamily: "PlusJakartaSans-Bold"
                     }}
                 >
-                    {"Create an account"}
+                    Create an account
                 </Text>
             </View>
 
@@ -117,7 +119,7 @@ export default function SignUpScreen() {
                         alignItems: "center",
                     }}
 
-                    onPress={()=> router.push("/home")}
+                    onPress={()=> router.push("/role")}
                 >
                     <Text
                         style={{

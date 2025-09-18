@@ -6,9 +6,9 @@ import {
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
-  SafeAreaView,
   TextInput
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
 
 
