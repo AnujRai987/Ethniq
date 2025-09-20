@@ -1,177 +1,193 @@
-
-import React, { useState } from "react";
+import { useRouter } from "expo-router";
+import React, { useRef, useState } from "react";
 import { Video } from "expo-av";
 import { Colors } from "../assets/Colors";
-import { auth, db } from "../FirebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
-
-import { View, Text, TextInput, TouchableOpacity, ScrollView, } from "react-native";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "expo-router";
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  Alert, 
+  ActivityIndicator, 
+  StyleSheet 
+} from "react-native";
+import CustomKeyboardView from "../components/CustomKeyboardView";
+import { useAuth } from "../context/authContext";
 
 export default function SignUpScreen() {
-    const [username, setUsername] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const router = useRouter();
 
-    const router = useRouter();
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const usernameRef = useRef();
+  const { register} = useAuth();
+  const [loading, setLoading]=useState(false);
+  
 
-    const signUp = async () => {
-        try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(userCredential);
-            const user = userCredential.user;
-
-            // Save user info (not password)
-            await addDoc(collection(db, "Users"), {
-                Email: email,
-                Name: username,
-                Password: password
-            });
-
-            router.replace("/home"); // navigate to home
-        } catch (error) {
-            console.log("SignUp Error:", error);
-            alert("Sign up failed: " + error.message);
-        }
-    };
-
-    return (
-        <ScrollView
-            style={{ flex: 1, backgroundColor: "white" }}
-            contentContainerStyle={{ flexGrow: 1, marginTop: 12 }}
-        >
-
-            {/* Image background with overlay and "Create account" */}
-            <View>
-                <Video
-                    source={require("../assets/videos/createacc.mp4")}
-                    style={{
-                        height: 400,
-                        borderRadius: 12,
-                        overflow: "hidden",
-                    }}
-                    resizeMode="contain"
-                    shouldPlay     // autoplay
-                    isLooping      // loop forever
-                    isMuted
-                >
-                </Video>
-            </View>
-
-            <View>
-                <Text
-                    style={{
-                        color: "../assets/constants/primary_but",
-                        fontSize: 20,
-                        fontWeight: "bold",
-                        marginVertical: 8,
-                        marginLeft: 20,
-                        marginRight: 190,
-                    }}
-                >
-                    {"Create an account"}
-                </Text>
-            </View>
-
-            {/* Username Input */}
-            <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
-                <TextInput
-                    placeholder="Username"
-                    value={username}
-                    onChangeText={setUsername}
-                    style={{
-                        backgroundColor: "#f0f4f4",
-                        borderRadius: 12,
-                        padding: 16,
-                        fontSize: 16,
-                        color: "#111717",
-                    }}
-                    placeholderTextColor="#648787"
-                />
-            </View>
-
-            {/* Email Input */}
-            <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
-                <TextInput
-                    placeholder="Email"
-                    value={email}
-                    onChangeText={setEmail}
-                    style={{
-                        backgroundColor: "#f0f4f4",
-                        borderRadius: 12,
-                        padding: 16,
-                        fontSize: 16,
-                        color: "#111717",
-                    }}
-                    placeholderTextColor="#648787"
-                />
-            </View>
-
-            {/* Password Input */}
-            <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
-                <TextInput
-                    placeholder="Password"
-                    value={password}
-                    secureTextEntry
-                    onChangeText={setPassword}
-                    style={{
-                        backgroundColor: "#f0f4f4",
-                        borderRadius: 12,
-                        padding: 16,
-                        fontSize: 16,
-                        color: "#111717",
-                    }}
-                    placeholderTextColor="#648787"
-                />
-            </View>
-
-            {/* Main Sign Up Button */}
-            <View style={{ paddingHorizontal: 16, paddingVertical: 12 }}>
-                <TouchableOpacity
-                    style={{
-                        backgroundColor: Colors.bttn,
-                        borderRadius: 12,
-                        padding: 16,
-                        alignItems: "center",
-                    }}
-
-                    onPress={signUp}
-                >
-                    <Text
-                        style={{
-                            fontWeight: "bold",
-                            fontSize: 16,
-                            color: "#111717",
-                        }}
-                    >
-                        Sign Up
-                    </Text>
-                </TouchableOpacity>
-            </View>
-
-            {/* Footer */}
-            <Text
-                style={{
-                    color: "#648787",
-                    fontSize: 14,
-                    textAlign: "center",
-                    marginTop: 8,
-                }}
-            >
-                Already have an account?
-            </Text>
-            <Text
-                style={{
-                    color: "#648787",
-                    fontSize: 14,
-                    textAlign: "center",
-                    textDecorationLine: "underline",
-                    marginBottom: 16,
-                }}
-            >
-                Log in
-            </Text>
-        </ScrollView>
+  const handleRegister = async () => {
+    if (!emailRef.current || !passwordRef.current || !usernameRef.current) {
+      Alert.alert("Empty Fields", "Fill all the fields");
+      return;
+    }
+    let response = await register(
+      emailRef.current,
+      passwordRef.current,
+      usernameRef.current
     );
+    setLoading(true);
+    if (!response.success) {
+      Alert.alert("Sign Up", response.msg);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <CustomKeyboardView
+      style={styles.container}
+      contentContainerStyle={styles.contentContainer}
+    >
+      {/* Video Banner */}
+      <View style={styles.videoWrapper}>
+        <Video
+          source={require("../assets/videos/createacc.mp4")}
+          style={styles.video}
+          resizeMode="contain"
+          shouldPlay
+          isLooping
+          isMuted
+        />
+      </View>
+
+      {/* Title */}
+      <View>
+        <Text style={styles.title}>Create an account</Text>
+      </View>
+
+      {/* Username Input */}
+      <View style={styles.inputWrapper}>
+        <TextInput
+          placeholder="Username"
+          onChangeText={(value) => (usernameRef.current = value)}
+          style={styles.input}
+          placeholderTextColor="#648787"
+        />
+      </View>
+
+      {/* Email Input */}
+      <View style={styles.inputWrapper}>
+        <TextInput
+          placeholder="Email"
+          autoCapitalize="none"
+          textContentType="emailAddress"
+          autoComplete="email"
+          onChangeText={(value) => (emailRef.current = value)}
+          style={styles.input}
+          placeholderTextColor="#648787"
+        />
+      </View>
+
+      {/* Password Input */}
+      <View style={styles.inputWrapper}>
+        <TextInput
+          placeholder="Password"
+          secureTextEntry
+          onChangeText={(value) => (passwordRef.current = value)}
+          style={styles.input}
+          placeholderTextColor="#648787"
+        />
+      </View>
+
+      {/* Sign Up Button */}
+      <View style={styles.buttonWrapper}>
+        <TouchableOpacity
+          style={[styles.button, styles.signupButton]}
+          onPress={handleRegister}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator size="large" color="#fff" />
+          ) : (
+            <Text style={styles.buttonText}>Sign Up</Text>
+          )}
+        </TouchableOpacity>
+      </View>
+
+      {/* Footer */}
+      <Text style={styles.footerText}>Already have an account?</Text>
+      <TouchableOpacity onPress={() => router.replace("/login")}>
+        <Text style={styles.footerLink}>Log in</Text>
+      </TouchableOpacity>
+    </CustomKeyboardView>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "white",
+  },
+  contentContainer: {
+    flexGrow: 1,
+    marginTop: 12,
+  },
+  videoWrapper: {
+    marginTop: 5,
+  },
+  video: {
+    height: 325,
+    width: "auto",
+    borderRadius: 12,
+    overflow: "hidden",
+  },
+  title: {
+    color: Colors.primaryText ?? "#111717",
+    fontSize: 20,
+    fontWeight: "bold",
+    marginLeft: 20,
+    marginBottom: 20,
+    fontFamily: "PlusJakartaSans-Bold",
+  },
+  inputWrapper: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  input: {
+    backgroundColor: "#f0f4f4",
+    borderRadius: 12,
+    padding: 16,
+    fontSize: 16,
+    color: "#111717",
+  },
+  buttonWrapper: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 48,
+    borderRadius: 8,
+  },
+  signupButton: {
+    backgroundColor: Colors.bttn,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#111717",
+  },
+  footerText: {
+    color: "#648787",
+    fontSize: 14,
+    textAlign: "center",
+    marginTop: 8,
+  },
+  footerLink: {
+    color: "#648787",
+    fontSize: 14,
+    textAlign: "center",
+    textDecorationLine: "underline",
+    marginBottom: 16,
+  },
+});

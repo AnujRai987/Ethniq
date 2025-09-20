@@ -1,39 +1,47 @@
-import { Colors } from "../assets/Colors";
-import React, { useState } from "react";
+import { router, useRouter } from "expo-router";
+import React, { useRef, useState } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ImageBackground,
   TouchableOpacity,
-  SafeAreaView,
-  TextInput
+  TextInput,
+  Alert,
+  ActivityIndicator
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, AntDesign, Feather } from "@expo/vector-icons";
-import { auth } from "../FirebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "expo-router";
+import { useAuth } from "../context/authContext";
+import CustomKeyboardView from "../components/CustomKeyboardView";
+import { Colors } from "../assets/Colors";
 
-export default function AuthScreen() {
-  const [email, setEmailId] = useState("");
-  const [password, setPassword] = useState("")
-  const router=useRouter();
 
-// sign method
-    const signIn= async () =>{
-      try {
-        const userCredential= await signInWithEmailAndPassword(auth,email,password);
-        console.log(userCredential);  //remove later
-        if(userCredential.user.uid){
-          console.log("Moving to home screen") // remove
-          router.replace("/home");
-        }  
-      } catch (error) {
-        console.log(error);
-      }
+export default function LoginScreen() {
+  const router = useRouter();
+
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const { login } = useAuth();
+
+  const [loading, setLoading] = useState(false);
+
+  const handleLogin = async () => {
+    //login code 
+    if (!emailRef.current || !passwordRef.current) {
+      Alert.alert("Login", "Please fill all the fields");
+      return;
     }
+    setLoading(true);
+    const response = await login(emailRef.current, passwordRef.current);
+    if (!response.success) {
+      Alert.alert("Login", response.msg);
+      setLoading(false);
+    }
+  }
+
   return (
-    <SafeAreaView style={styles.container}>
+    <CustomKeyboardView style={styles.container}>
       {/* Top Background Image */}
       <View style={styles.imageWrapper}>
         <ImageBackground
@@ -49,44 +57,53 @@ export default function AuthScreen() {
         Discover unique crafts from around the globe.
       </Text>
 
-
+      {/* Email Input */}
       <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
-                <TextInput
-                    placeholder="Enter your Email"
-                    value={email}
-                    onChangeText={setEmailId}
-                    style={{
-                        backgroundColor: "#f0f4f4",
-                        borderRadius: 12,
-                        padding: 16,
-                        fontSize: 16,
-                        color: "#111717",
-                    }}
-                    placeholderTextColor="#648787"
-                />
-            </View>
+        <TextInput
+          placeholder="Enter your Email"
+          onChangeText={value => emailRef.current = value}
+          autoCapitalize="none"
+          autoComplete="email"
+          textContentType="emailAddress"
+          style={{
+            backgroundColor: "#f0f4f4",
+            borderRadius: 12,
+            padding: 16,
+            fontSize: 16,
+            color: "#111717",
+          }}
+          placeholderTextColor="#648787"
+        />
+      </View>
 
-
+      {/* Password Input*/}
       <View style={{ paddingHorizontal: 16, paddingVertical: 8 }}>
-                <TextInput
-                    placeholder="Enter your Password"
-                    value={password}
-                    onChangeText={setPassword}
-                    style={{
-                        backgroundColor: "#f0f4f4",
-                        borderRadius: 12,
-                        padding: 16,
-                        fontSize: 16,
-                        color: "#111717",
-                    }}
-                    placeholderTextColor="#648787"
-                />
-            </View>
-      
+        <TextInput
+          placeholder="Enter your Password"
+          onChangeText={value => passwordRef.current = value}
+          style={{
+            backgroundColor: "#f0f4f4",
+            borderRadius: 12,
+            padding: 16,
+            fontSize: 16,
+            color: "#111717",
+          }}
+          placeholderTextColor="#648787"
+        />
+      </View>
 
+      {/* Login Button */}
       <View style={styles.buttonWrapper}>
-        <TouchableOpacity style={[styles.button, styles.loginButton]} onPress={signIn}>
-                    <Text style={styles.buttonText}>Login</Text>
+        <TouchableOpacity style={[styles.button, styles.loginButton]}
+        onPress={handleLogin}
+        disabled={loading}
+        >
+          {/* Added loading laoding view  */}
+          {loading ? (
+            <ActivityIndicator size="large" color="#fff"/>
+          ):(
+            <Text style={styles.buttonText}>Login</Text>
+          )}
         </TouchableOpacity>
       </View>
 
@@ -96,12 +113,12 @@ export default function AuthScreen() {
 
       <View style={styles.buttonWrapper}>
         <TouchableOpacity style={[styles.button, styles.createButton]}>
-		            <AntDesign name="google" size={20} color="#111717" style={{ marginRight: 8 }} />
-                <Text style={styles.buttonText}>/ </Text>
-		            <Feather name="phone" size={20} color="#111717" style={{ marginRight: 8 }} />
+          <AntDesign name="google" size={20} color="#111717" style={{ marginRight: 8 }} />
+          <Text style={styles.buttonText}>/ </Text>
+          <Feather name="phone" size={20} color="#111717" style={{ marginRight: 8 }} />
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, styles.createButton]} onPress={()=>router.push("/signup")}>
+        <TouchableOpacity style={[styles.button, styles.createButton]} onPress={() => router.push("/signup")}>
           <Ionicons name="person-add" size={20} color="#111717" style={{ marginRight: 8 }} />
           <Text style={styles.buttonText}>Create an account</Text>
         </TouchableOpacity>
@@ -112,7 +129,7 @@ export default function AuthScreen() {
       <Text style={styles.terms}>
         By continuing, you agree to our Terms of Service and Privacy Policy.
       </Text>
-    </SafeAreaView>
+    </CustomKeyboardView>
   );
 }
 
@@ -123,7 +140,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   imageWrapper: {
-    aspectRatio:1,
     width: "100%",
     minHeight: 335,
   },
@@ -161,7 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#bfb24f",
   },
   loginButton: {
-    backgroundColor: "#bfb24f",
+    backgroundColor: Colors.bttn,
   },
   createButton: {
     backgroundColor: "transparent",
@@ -181,10 +197,10 @@ const styles = StyleSheet.create({
   },
   terms: {
     color: "#648787",
-    fontSize: 14,
+    fontSize: 12,
     textAlign: "center",
     textDecorationLine: "underline",
-    marginVertical: 110,
-    paddingHorizontal: 16,
+    marginVertical: 4,
+    paddingHorizontal:50,
   },
 });

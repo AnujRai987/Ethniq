@@ -5,11 +5,11 @@ import {
   Text,
   ImageBackground,
   TouchableOpacity,
-  StyleSheet,
-  SafeAreaView,
+  StyleSheet
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { Colors } from "../../assets/Colors";
+import { Colors } from "../../../assets/Colors";
 
 export default function PostPublished() {
   return (

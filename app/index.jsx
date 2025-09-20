@@ -1,41 +1,25 @@
-import { useRouter } from "expo-router";
-import {
-  View,
-  Text,
-  ImageBackground,
-  StyleSheet,
-  SafeAreaView,
-  Animated,
-  Easing,
-} from "react-native";
+import { useRouter, router } from "expo-router";
+import { View, Text, ImageBackground, StyleSheet, Animated,Easing} from "react-native";
 import { Colors } from "../assets/Colors";
-import { auth } from "../FirebaseConfig";
-import React, { useEffect, useRef } from "react";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { timeout } from "../constants/timeout";
+import { useRef ,useEffect} from "react";
 
-export default function App() {
-  const router = useRouter();
+export default function SplashScreen() {
+
   const progress = useRef(new Animated.Value(0)).current;
 
+  //Animate splash progress bar
   useEffect(() => {
-    // ✅ Animate progress bar
     Animated.timing(progress, {
       toValue: 1,
-      duration: 1500, // splash duration (2 sec)
+      duration: timeout.timeout,
       easing: Easing.linear,
       useNativeDriver: false,
-    }).start(() => {
-      // ✅ Check Firebase cached user immediately
-      const currentUser = auth.currentUser;
-      console.log("index.js-first-loading screen : ",currentUser);         // test and remove in future
-      if (currentUser) {
-        router.replace("/home"); // go home if logged in (offline or online)
-      } else {
-        router.replace("/login"); // go to login if no user
-      }
-    });
+    }).start();
   }, []);
 
-  // Interpolated width (0 → 100%)
+
   const progressWidth = progress.interpolate({
     inputRange: [0, 1],
     outputRange: ["0%", "100%"],
@@ -59,9 +43,7 @@ export default function App() {
       {/* Bottom Progress Bar */}
       <View style={styles.bottomWrapper}>
         <View style={styles.progressBackground}>
-          <Animated.View
-            style={[styles.progressBar, { width: progressWidth }]}
-          />
+          <Animated.View style={[styles.progressBar, { width: progressWidth }]} />
         </View>
       </View>
     </SafeAreaView>
@@ -104,7 +86,7 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   progressBar: {
-    height: 8,
+    height: 10,
     backgroundColor: Colors.bttn,
     borderRadius: 4,
     width: "100%",
