@@ -5,7 +5,7 @@ import { Colors } from "../assets/Colors";
 import { auth, db } from "../FirebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
 
-import {View, Text, TextInput,TouchableOpacity,ScrollView,} from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, } from "react-native";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "expo-router";
 
@@ -14,45 +14,27 @@ export default function SignUpScreen() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const router =useRouter();
+    const router = useRouter();
 
-    const signUp =async () => {
+    const signUp = async () => {
         try {
-            const userCreate= await createUserWithEmailAndPassword(auth,email,password);
-            console.log(userCreate);
-            
-            addDoc(collection(db,"Users"),{
-                
-                Email:email,
-                Name:username,
-                Password:password
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+            console.log(userCredential);
+            const user = userCredential.user;
+
+            // Save user info (not password)
+            await addDoc(collection(db, "Users"), {
+                Email: email,
+                Name: username,
+                Password: password
             });
-            router.replace("/home")
-            
+
+            router.replace("/home"); // navigate to home
         } catch (error) {
-            console.log(error);
-            alert(error);
+            console.log("SignUp Error:", error);
+            alert("Sign up failed: " + error.message);
         }
-    }
-//     const signUp = async () => {
-//   try {
-//     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-//     console.log(userCredential);
-//     const user = userCredential.user;
-
-//     // Save user info (not password)
-//     await addDoc(collection(db, "Users"), {
-//       Email: email,
-//       Name:username,
-//       Password:password
-//     });
-
-//     router.replace("/home"); // navigate to home
-//   } catch (error) {
-//     console.log("SignUp Error:", error);
-//     alert("Sign up failed: " + error.message);
-//   }
-// };
+    };
 
     return (
         <ScrollView

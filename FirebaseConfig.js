@@ -9,13 +9,14 @@ import {getFirestore} from "firebase/firestore";
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyAilvurksFgPX3DN7EeiJAsXd160b6zWL4",
-  authDomain: "upbeat-climate-471313-d4.firebaseapp.com",
-  projectId: "upbeat-climate-471313-d4",
-  storageBucket: "upbeat-climate-471313-d4.firebasestorage.app",
-  messagingSenderId: "927932441396",
-  appId: "1:927932441396:web:558cce421c5bff704bbb61",
-  measurementId: "G-CYZH337V5L"
+  apiKey: "AIzaSyDehz00J1s6DeZvCprkGVLIjtBlumZpkDI",
+  authDomain: "sonorous-bounty-472614-j9.firebaseapp.com",
+  databaseURL: "https://sonorous-bounty-472614-j9-default-rtdb.firebaseio.com",
+  projectId: "sonorous-bounty-472614-j9",
+  storageBucket: "sonorous-bounty-472614-j9.firebasestorage.app",
+  messagingSenderId: "1031181700817",
+  appId: "1:1031181700817:web:44f0a2029d5d2930533ff0",
+  measurementId: "G-7VL521VSHM"
 };
 
 // Initialize Firebase

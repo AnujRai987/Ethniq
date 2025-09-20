@@ -26,6 +26,7 @@ export default function App() {
     }).start(() => {
       // ✅ Check Firebase cached user immediately
       const currentUser = auth.currentUser;
+      console.log("index.js-first-loading screen : ",currentUser);         // test and remove in future
       if (currentUser) {
         router.replace("/home"); // go home if logged in (offline or online)
       } else {
