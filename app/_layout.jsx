@@ -22,7 +22,7 @@ const MainLayout = () => {
       if(isAuthenticated && isNewUser){
         router.replace('/role')
       }
-      else if (isAuthenticated && !inApp) {
+      else if (isAuthenticated && !isNewUser && !inApp) {
         router.replace('/home')
       }
       else if (isAuthenticated == false) {
@@ -46,19 +46,3 @@ export default function RootLayout() {
 
 }
 
-
-
-// <SafeAreaProvider>
-//   <Stack screenOptions={{headerShown:false}}>
-//   <Stack.Screen
-//   name="index"/>
-//   <Stack.Screen
-//   name="login"/>
-//   <Stack.Screen
-//   name="signup"/>
-//   <Stack.Screen
-//   name="role"/>
-//   {/* <Stack.Screen
-//   name="(tabs)"/> */}
-//   </Stack>
-// </SafeAreaProvider>

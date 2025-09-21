@@ -29,15 +29,22 @@ export default function SignUpScreen() {
       Alert.alert("Empty Fields", "Fill all the fields");
       return;
     }
-    let response = await register(
-      emailRef.current,
-      passwordRef.current,
-      usernameRef.current
-    );
-    setLoading(true);
-    if (!response.success) {
-      Alert.alert("Sign Up", response.msg);
-      setLoading(false);
+    try {
+      setLoading(true);
+        const response = await register(
+            emailRef.current,
+            passwordRef.current,
+            usernameRef.current
+        );
+        if (!response.success) {
+            Alert.alert("Sign Up Error", response.msg);
+        }
+    } catch (error) {
+       Alert.alert("Error", "Registration failed. Please try again.");
+       
+    }
+    finally {
+        setLoading(false);
     }
   };
 

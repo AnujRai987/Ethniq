@@ -9,8 +9,9 @@ import {
   Dimensions,
 } from 'react-native';
 import { Colors } from '../../../assets/Colors';
+import { useAuth } from '../../../context/authContext';
 // Placeholder for icons - you can replace with react-native-vector-icons or react-native-svg icons
-const Icon = ({name, size = 24, color = Colors.bttn2}) => {
+const Icon = ({ name, size = 24, color = Colors.bttn2 }) => {
   // For simplicity, just render a colored square as icon placeholder
   return (
     <View
@@ -36,14 +37,14 @@ const ArtisanPost = ({
   return (
     <View style={styles.postContainer}>
       <View style={styles.profileRow}>
-        <Image source={{uri: profileImage}} style={styles.profileImage} />
-        <View style={{flex: 1, marginLeft: 10}}>
+        <Image source={{ uri: profileImage }} style={styles.profileImage} />
+        <View style={{ flex: 1, marginLeft: 10 }}>
           <Text style={styles.profileName}>{name}</Text>
           <Text style={styles.profileUsername}>{username}</Text>
         </View>
       </View>
       <View style={styles.postImageContainer}>
-        <Image source={{uri: postImage}} style={styles.postImage} />
+        <Image source={{ uri: postImage }} style={styles.postImage} />
       </View>
       <Text style={styles.postDescription}>{description}</Text>
       <View style={styles.interactionRow}>
@@ -58,25 +59,31 @@ const ArtisanPost = ({
         <View style={styles.interactionItem}>
           <Icon name="share" />
           <Text style={styles.interactionText}>{shares}</Text>
-          </View>
         </View>
+      </View>
     </View>
-         ) };
+  )
+};
 export default function EthniqApp() {
-    return (
-        <View style={styles.container}>
-        {/* Header */}
-        <View style={styles.header}>
-            <TouchableOpacity style={styles.iconButton}>
-            <Icon name="menu" size={24} color="#111811" />
-            </TouchableOpacity>
-            <Text style={styles.headerTitle}>ETHNIQ</Text>
-            <TouchableOpacity style={styles.iconButton}>
-            <Icon name="search" size={24} color="#111811" />
-            </TouchableOpacity>
-        </View>
+
+  const {logout} =useAuth();
+  const handleLogout = async () =>{
+    await logout();
+  }
+  return (
+    <View style={styles.container}>
+      {/* Header */}
+      <View style={styles.header}>
+        <TouchableOpacity style={styles.iconButton}>
+          <Icon name="menu" size={24} color="#111811" />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>ETHNIQ</Text>
+        <TouchableOpacity style={styles.iconButton}>
+          <Icon name="search" size={24} color="#111811" />
+        </TouchableOpacity>
+      </View>
       {/* Scrollable content */}
-      <ScrollView contentContainerStyle={{paddingBottom: 100}}>
+      <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
         {/* Posts */}
         <ArtisanPost
           profileImage="https://lh3.googleusercontent.com/aida-public/AB6AXuBfuAEEUXXCCVfSF24ubiElWo86T7lMsuKhv-EC_ot0luprv609gi1fa7PXV-xa9JgC0EgSTO5eS9sFRJqgWhsY4qEoVJtNhxjCr6m0QxZVLCk7sVcQWMWJvambN5SxeSIY3q8SB13eweAOQZFqPr6UG4WkvRjveYgdBYn-kcW7Cp3VTxShLUaa6D6pC04PTR3tOKzNfIfQPA4kVhiuPODzM8V79Cti-hPBE39yHgGAYlRQil6mWycgDxwf63K1DWVMLawid46rM1w"
@@ -87,7 +94,7 @@ export default function EthniqApp() {
           likes={123}
           comments={45}
           shares={67}
-           />
+        />
         <ArtisanPost
           profileImage="https://lh3.googleusercontent.com/aida-public/AB6AXuCMd1wj-FUJRXt7LS8tZCnauTzbW3HNnZbOb_aSLYiZ3_14ABhrcR2h8BXThgt9CAr6b7gsXzuIfLpO5cLMIljW-Uo2SgSpF182G-p_50lSET9cG12i5EGjT-nIb73zwlaIh2syQFwXh6hyH9bv1Bv3ZqzGBr4xOtDiiNf6LTY1CNyobji8d57DKx9nPT2fvSbTDLaJY3fyH8UzXWn0fo-7r-XJaOrAvX7Hw67SER5jFd8BqKCnyNT0txZEsIUmEeRycmikwYzNDPA"
           name="Artisan Logo"
@@ -110,41 +117,22 @@ export default function EthniqApp() {
         />
         {/* Visual Preview Button */}
         <View style={styles.visualPreviewContainer}>
-          <TouchableOpacity style={styles.visualPreviewButton}>
+          <TouchableOpacity style={styles.visualPreviewButton} onPress={handleLogout}>
             <Text style={styles.visualPreviewText}>Visual Preview</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
-      {/* Bottom Navigation */}
-      {/* <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="home" color="#111811" />
-          <Text style={[styles.navText, {color: '#111811'}]}>Home</Text>
-        </TouchableOpacity>
-<TouchableOpacity style={styles.navItem}>
-          <Icon name="film" />
-          <Text style={styles.navText}>Videos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="plus" />
-          <Text style={styles.navText}>Add</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
-          <Icon name="user" />
-          <Text style={styles.navText}>Profile</Text>
-        </TouchableOpacity>
-      </View> */}
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     backgroundColor: '#fff',
     fontFamily: 'Be Vietnam Pro, Noto Sans, sans-serif', // Note: React Native doesn't support web fonts directly
   },
   header: {
-    marginTop:25,
+    marginTop: 25,
     flexDirection: 'row',
     paddingHorizontal: 16,
     paddingVertical: 12,
@@ -174,7 +162,7 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    shadowOffset: {width: 0, height: 2},
+    shadowOffset: { width: 0, height: 2 },
   },
   profileRow: {
     flexDirection: 'row',
@@ -201,7 +189,7 @@ const styles = StyleSheet.create({
     aspectRatio: 3 / 2,
     backgroundColor: '#ddd',
   },
-postImage: {
+  postImage: {
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
