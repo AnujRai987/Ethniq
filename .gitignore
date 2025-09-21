@@ -40,3 +40,4 @@ app-example
 
 /android/app/my-upload-key.keystore
 /android/gradle.properties
+FirebaseConfig.js
