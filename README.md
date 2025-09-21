@@ -1,50 +1,77 @@
-# Welcome to your Expo app 👋
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+# 🎨 Ethniq – AI Powered Art & Culture Collaboration Platform  
 
-## Get started
+Ethniq is a **GenAI-powered mobile app** built during the GenAI Hackathon to bridge the gap between **local artists, craft enthusiasts, and global audiences**. It leverages cutting-edge AI, AR/VR, and cloud technologies to preserve cultural heritage, empower artists, and deliver immersive experiences for users.  
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🚀 Problem We Solve  
+Traditional art & crafts often remain **undiscovered**, with artists struggling to reach wider audiences. Current platforms either focus only on **AI-art generation**, **freelance marketplaces**, or **portfolios**, but **none integrate collaboration, AI assistance, and cultural storytelling**.  
 
-2. Start the app
+---
 
-   ```bash
-   npx expo start
-   ```
+## 🌟 Ethniq’s USP (Unique Selling Proposition)  
+- **AI-driven collaboration hub** → AI chatbot helps artists & users co-create and visualize requests.  
+- **AI video generation** → Auto-generated reels of artists + cultural history to engage audiences.  
+- **Geo-localized multilingual content** → Users get videos in their regional language (e.g., Marathi in Maharashtra).  
+- **Seamless social media publishing** → AI bot auto-posts artworks to Instagram, Twitter (X), Facebook, and Ethniq app simultaneously.  
+- **Future expansion** → Digital 3D museums & AR cultural experiences.  
 
-In the output, you'll find options to open the app in a
+---
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📱 Features  
+- Artist & User common homepage feed  
+- AI-powered image enhancement & captioning (Google Vision + Vertex AI)  
+- Auto-generated cultural reels & artist storytelling videos  
+- Geo-localized language support  
+- AI bot for artist-user collaboration  
+- One-click cross-platform posting (Ethniq + Social Media)  
+- Firebase-powered backend & authentication  
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 🏗️ Tech Stack  
 
-When you're ready, run:
+**Frontend**  
+- React Native, TypeScript  
+- NativeWind / Tailwind CSS  
+- React.js (web companion)  
+- SQLite (local storage)  
 
-```bash
-npm run reset-project
-```
+**Backend**  
+- Firebase (Firestore, Storage, Auth)  
+- Node.js + Express.js (API layer, automation)  
+- JWT Authentication  
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+**AI & APIs**  
+- Google Cloud Vertex AI (text & video generation)  
+- Google Cloud Vision (image enhancement & captioning)  
+- Geolocation API (for regional content)  
+- Social Media APIs (Instagram Graph API, Twitter API, Facebook Graph API)  
 
-## Learn more
+**Deployment & Tools**  
+- Firebase Hosting + Cloud Functions  
+- GitHub Actions (CI/CD)  
+- Vercel (optional web deployment)  
 
-To learn more about developing your project with Expo, look at the following resources:
+---
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## 🔄 Process Flow  
+**User → App → AI Bot → Artist → Final Artwork → Auto-Publish (Ethniq + Social Media)**  
 
-## Join the community
+---
 
-Join our community of developers creating universal apps.
+## 📸 Future Scope  
+- **3D Digital Museum** – Explore heritage art in virtual galleries  
+- **AR Experiences** – Bring traditional art to life through augmented reality  
+- **Blockchain Art Marketplace** – Enable secure NFT-based ownership & trade of cultural art  
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+
+## 🤝 Contribution  
+We welcome contributions! Please fork the repo, create a branch, and submit a PR.  
+
+---
+
+## 📜 License  
+MIT License © 2025 Ethniq Team  
