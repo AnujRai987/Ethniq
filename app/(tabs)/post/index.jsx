@@ -10,14 +10,14 @@ import {
 } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Colors } from "../../../assets/Colors";
-import { router, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 
 export default function StoryScreen() {
   const [title, setTitle] = useState("");
   const [materials, setMaterials] = useState("");
   const [techniques, setTechniques] = useState("");
   const [story, setStory] = useState("");
-  // const router = useRouter()
+  const router = useRouter();
 
   return (
     <SafeAreaProvider>
@@ -97,7 +97,7 @@ export default function StoryScreen() {
 
         {/* Generate Button */}
         <View style={styles.buttonWrapper}>
-          <TouchableOpacity style={styles.button} onPress={()=>router.push("/postpreview")}>   
+          <TouchableOpacity style={styles.button} onPress={()=>router.replace("/post/postpreview")}>   
             {/* it's not working */}
             <Text style={styles.buttonText}>Preview</Text>
           </TouchableOpacity>

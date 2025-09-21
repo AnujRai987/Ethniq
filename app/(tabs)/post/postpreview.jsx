@@ -13,9 +13,7 @@ export default function home() {
       {/* Profile Row */}
       <View style={styles.profileRow}>
         <ImageBackground
-          source={{
-            uri: "https://lh3.googleusercontent.com/aida-public/AB6AXuBwmwWJgbm8H9hTFwfnFDo9q7BrzbBJ2rT3Ib8qX62eDrpjF32ivff-57W9uwmQMPNzGHMchE_n4uKfxYe1JARLqqKxMMY3d5l3n1nDAgiFNnsbbbRi1DaAlYP0UUkNSFsQHA-LvDDGt-TYWfmMpFR6EYzadYHuga3G-jX681kyF3p9jeW0XcHhXB8zES0_u0XeU_lPxEY1TW_cuwU7lxqtl-ipInc2eNM83RFvO8M7hNWSDPFx7clmA-DEWJUUqnuVqXJZWAnAUs8",
-          }}
+          source={require('../../../assets/images/avtar.png')}
           style={styles.avatar}
         />
         <Text style={styles.username}>ArtisanCrafts</Text>
@@ -24,9 +22,7 @@ export default function home() {
       {/* Post Card */}
       <View style={styles.postCard}>
         <ImageBackground
-          source={{
-            uri: "https://lh3.googleusercontent.com/aida-public/AB6AXuAh7wGcgSYg6eJUGysi4upalBSE6zviA1Vt7aBRSwuyQChdJCzCIPpZt9i73Sb4oLFvWaNly0zmDofRIp9qpicV2f1xhHMmcQ_-z3QNfzIHEZjvTRSAPfoPN_mYO7KeNEhgaL3Ho6wV8CoH7LzyTh9fjmXz5WcxaOHEOYPsK56glJC1RI629xXQ32E6DHeYglpXVTiLI3oKoK1IUJD4OHWbp7QsAZOp2EzOvUd4BWQGECMXPK2bHbamrp1qhylYHK3-7ar45uPREw0",
-          }}
+          source={require("../../../assets/images/ppimg.png")}
           style={styles.postImage}
         />
 
